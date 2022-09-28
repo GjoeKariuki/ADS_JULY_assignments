@@ -194,19 +194,19 @@ elif selection == "Train&Predict":
         # evaluate the model
         # score method or accuracy_score
         # print(accuracy_score(y_test, targ_predictions))
-        if st.checkbox.subheader("Show Accuracy_Score"):
+        if st.checkbox("Show Accuracy_Score"):
             st.subheader("Model Score")
             st.write(rfc_score)
             st.subheader("With Accuracy Score")
             st.write(accuracy_score(y_test, targ_predictions))
 
     with colb:
-        if st.checkbox.subheader("Show Classification Report?"):
+        if st.checkbox("Show Classification Report?"):
             st.subheader("Classification report")
             st.write(classification_report(y_test, targ_predictions))
 
     with colc:
-        if st.checkbox.subheader("show Confusion Matrix?"):
+        if st.checkbox("show Confusion Matrix?"):
             st.subheader("Confusion Matrix")
             cm_display = confusion_matrix(y_test, targ_predictions)
             # st.write(cm_display)
