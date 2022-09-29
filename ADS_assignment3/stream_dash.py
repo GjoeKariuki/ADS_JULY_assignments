@@ -101,7 +101,7 @@ else:
 
 
 # select box
-menu = ["Business Snapshot","Train&Predict","About"]
+menu = ["Features Snapshot","Train&Predict","About"]
 selection = st.sidebar.selectbox("Menu Options", menu)
 
 st.sidebar.write('''\n
@@ -120,7 +120,7 @@ st.sidebar.write('''\n
                     : EstimatedSalary—as with balance, people with lower salaries are more likely to leave the bank compared to those with higher salaries. \n
                     : Exited—whether or not the customer left the bank. \n''')
 
-if selection == "Business Snapshot":
+if selection == "Features Snapshot":
     
     st.subheader("Main data")
     st.dataframe(bank_dt.head(8))
@@ -169,91 +169,104 @@ if selection == "Business Snapshot":
 
 elif selection == "Train&Predict":
 
-    # loading
-    # obj = joblib.load(filename)
-    # obj.score(X_test,y_test)
-    # use saved model or train new
-    st.subheader("Please wait while: model is training")   
-
     # training and testing data
     X_dt = churn_dt.drop('Exited',axis=1)
     y_dt = churn_dt['Exited']
     X_train, X_test, y_train, y_test = train_test_split(X_dt,y_dt, test_size=0.2, random_state=17, stratify=y_dt)
+    
+    # loading saved model
+    model_obj = joblib.load("bank_churn_md")
+    model_preds = model_obj.predict(X_test)
+    rfc_score = model_obj.score(X_test,y_test)
+    acc_score = accuracy_score(y_test,model_preds)
+    cl_report = classification_report(y_test, model_preds)
+    conf_matrix = confusion_matrix(y_test, model_preds)
+
+    # load tuned model
+    tuned_modelobj = joblib.load("tuned_bank_churn_md")
+    
+    st.subheader("Please wait while: model is training")   
+
+   
 
     # model instantiate
-    rfc_obj = RandomForestClassifier()
+    #rfc_obj = RandomForestClassifier()
 
     # fitting the model
-    rfc_obj.fit(X_train,y_train)
-    targ_predictions = rfc_obj.predict(X_test)
+    # rfc_obj.fit(X_train,y_train)
+    # targ_predictions = rfc_obj.predict(X_test)
 
-    rfc_score = rfc_obj.score(X_test,y_test)
+    # rfc_score = rfc_obj.score(X_test,y_test)
 
-    cola, colb, colc = st.columns(3)
-    with cola:
+    # cola, colb, colc = st.columns(3)
+    with st.container():
         # evaluate the model
         # score method or accuracy_score
         # print(accuracy_score(y_test, targ_predictions))
         if st.checkbox("Show Accuracy_Score"):
             st.subheader("Model Score")
-            st.write(rfc_score)
+            st.success(rfc_score)
             st.subheader("With Accuracy Score")
-            st.write(accuracy_score(y_test, targ_predictions))
+            st.success(acc_score)
 
-    with colb:
+    with st.container():
         if st.checkbox("Show Classification Report?"):
             st.subheader("Classification report")
-            st.write(classification_report(y_test, targ_predictions))
+            st.text(cl_report)
 
-    with colc:
+    with st.container():
         if st.checkbox("show Confusion Matrix?"):
             st.subheader("Confusion Matrix")
-            cm_display = confusion_matrix(y_test, targ_predictions)
+            # cm_display = confusion_matrix(y_test, targ_predictions)
             # st.write(cm_display)
-            ax = ConfusionMatrixDisplay(cm_display).plot()
-            plt.show()
+            plt.figure(figsize=(20,10))
+            ax = ConfusionMatrixDisplay(conf_matrix).plot()
+            # plt.show()
+            st.pyplot(plt)
 
     # grid search
     st.subheader("HyperParameter tuning with GridSearch")  
     
     # Define the parameters to search over
-    param_grid = {'n_estimators': [i for i in range(10, 201, 10)], 'max_depth': [0,5,10,15,20], 'min_samples_split':[1,2,3],
-                    'min_samples_leaf':[1,2]}
+    # #param_grid = {'n_estimators': [i for i in range(10, 201, 10)], 'max_depth': [0,5,10,15,20], 'min_samples_split':[1,2,3],
+    #                 'min_samples_leaf':[1,2]}
 
     # Setup the grid search
-    grid = GridSearchCV(RandomForestClassifier(),
-                    param_grid,
-                    cv=5,
-                    scoring='recall'
-                )
+    # # grid = GridSearchCV(RandomForestClassifier(),
+    #                 param_grid,
+    #                 cv=5,
+    #                 scoring='recall')
 
     # Fit the grid search to the data
-    grid.fit(X_train, y_train)
+    #grid.fit(X_train, y_train)
 
     # Find the best parameters
-    best_pr = grid.best_params_
-    st.write(best_pr)
+    # best_pr = grid.best_params_
+    
 
-    # Set the model to the best estimator
-    rfc_grid = grid.best_estimator_    
+    # # Set the model to the best estimator
+    # rfc_grid = grid.best_estimator_    
 
     # Fit the best model
-    rfc_grid.fit(X_train, y_train)
+    # rfc_grid.fit(X_train, y_train)
 
     # Find the best model scores
-    st.subheader("After; HyperParameter tuned with GridSearch")
-    tuned_score = rfc_grid.score(X_test, y_test)
-    st.write(tuned_score)
+    st.subheader("Our best hyperparameters are:")
+    best_pr = {'max_depth': 20, 'min_samples_leaf': 1, 'min_samples_split': 3, 'n_estimators': 40}
+    st.json(best_pr)
+    st.subheader("Model score after tuning")
+    tuned_score =  tuned_modelobj.score(X_test,y_test)
+    st.success(tuned_score)
     
     # select box
-    choicez = {"PureModel":rfc_score,"GridsModel":tuned_score}
-    sel = st.sidebar.selectbox("Save Model", choicez)
-    filename = "bank_churn_md"
-    filenames = "tuned_bank_churn_md"
-    if sel == 'PureModel':
-        joblib.dump(rfc_obj, filename)
-    elif sel == 'GridsModel':
-        joblib.dump(rfc_grid, filenames)
+    # choicez = {"PureModel":rfc_score,"GridsModel":tuned_score}
+    # sel = st.sidebar.selectbox("Save Model", choicez)
+    # filename = "bank_churn_md"
+    # filenames = "tuned_bank_churn_md"
+    # if sel == 'PureModel':
+    #     joblib.dump(rfc_obj, filename)
+    # elif sel == 'GridsModel':
+    #     joblib.dump(rfc_grid, filenames)
 
     
 
