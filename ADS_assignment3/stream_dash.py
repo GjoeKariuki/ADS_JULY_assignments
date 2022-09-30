@@ -69,7 +69,7 @@ Made by <a class="white-text text-lighten-3" href="#">Jijo </a><br/>
 st.set_page_config(layout="wide", initial_sidebar_state="expanded", page_icon="$$$", page_title="Bank Churn")
 
 # load data
-data_path = r'G:\progressus\ADS_JULY_assignments\ADS_assignment3\banking_churn.csv'
+data_path = "G:\progressus\ADS_JULY_assignments\ADS_assignment3\banking_churn.csv"
 
 # design view
 st.sidebar.header("Banking Churn")
