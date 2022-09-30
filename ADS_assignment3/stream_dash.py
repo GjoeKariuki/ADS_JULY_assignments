@@ -33,7 +33,7 @@ integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeV
 <div class="container" id="aboutapp">
 <div class="row">
 <div class="col l6 s12">
-<h5 class="white-text">Nairobi Securities Stock Exchange</h5>
+<h5 class="white-text">Bank Churn</h5>
 <h6 class="grey-text text-lighten-4">This is a Streamlit Class practical.</h6>
 <p class="grey-text text-lighten-4">September 2022</p>
 </div>
@@ -69,7 +69,7 @@ Made by <a class="white-text text-lighten-3" href="#">Jijo </a><br/>
 st.set_page_config(layout="wide", initial_sidebar_state="expanded", page_icon="$$$", page_title="Bank Churn")
 
 # load data
-data_path = r"./banking_churn.csv"
+data_path = r'G:\progressus\ADS_JULY_assignments\ADS_assignment3\banking_churn.csv'
 
 # design view
 st.sidebar.header("Banking Churn")

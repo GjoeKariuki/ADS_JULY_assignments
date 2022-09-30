@@ -62,7 +62,7 @@ Made by <a class="white-text text-lighten-3" href="#">Jijo </a><br/>
 st.set_page_config(layout="wide", initial_sidebar_state="expanded", page_icon="$$$", page_title="TestingDash")
 
 # load data
-data_path = r"./data.csv"
+data_path = r"G:\progressus\ADS_JULY_assignments\ADS_assignment2\data.csv"
 
 # design view
 st.sidebar.header("Nairobi Stock Exchange")
