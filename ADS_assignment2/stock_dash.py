@@ -90,7 +90,7 @@ else:
     # create month column
     #loaded_dt['month'] = loaded_dt['date'].dt.month
     # get specific company names
-    company_names = loaded_dt.company.unique().tolist()
+    company_names = list(loaded_dt.company.unique())
 
 
 
