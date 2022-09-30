@@ -177,7 +177,11 @@ elif selection == "Train&Predict":
     X_train, X_test, y_train, y_test = train_test_split(X_dt,y_dt, test_size=0.2, random_state=17, stratify=y_dt)
     
     # loading saved model
-    model_obj = joblib.load("bank_churn_md")
+    # load data
+    ml_path = os.path.dirname(__file__)
+    model_path = ml_path+'/bank_churn_md'
+    
+    model_obj = joblib.load(model_path)
     model_preds = model_obj.predict(X_test)
     rfc_score = model_obj.score(X_test,y_test)
     acc_score = accuracy_score(y_test,model_preds)
@@ -185,7 +189,10 @@ elif selection == "Train&Predict":
     conf_matrix = confusion_matrix(y_test, model_preds)
 
     # load tuned model
-    tuned_modelobj = joblib.load("tuned_bank_churn_md")
+    # load data
+    tnd_path = os.path.dirname(__file__)
+    tnd_model_path = tnd_path+'/tuned_bank_churn_md'
+    tuned_modelobj = joblib.load(tnd_model_path)
     
     st.subheader("Please wait while: model is training")   
 
