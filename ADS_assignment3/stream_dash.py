@@ -1,4 +1,5 @@
 # importing required libraries
+import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -69,7 +70,8 @@ Made by <a class="white-text text-lighten-3" href="#">Jijo </a><br/>
 st.set_page_config(layout="wide", initial_sidebar_state="expanded", page_icon="$$$", page_title="Bank Churn")
 
 # load data
-data_path = "G:\progressus\ADS_JULY_assignments\ADS_assignment3\banking_churn.csv"
+path = os.path.dirname(__file__)
+data_path = path+'/banking_churn.csv'
 
 # design view
 st.sidebar.header("Banking Churn")
