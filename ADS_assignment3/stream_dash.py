@@ -69,7 +69,7 @@ Made by <a class="white-text text-lighten-3" href="#">Jijo </a><br/>
 st.set_page_config(layout="wide", initial_sidebar_state="expanded", page_icon="$$$", page_title="Bank Churn")
 
 # load data
-data_path = "./banking_churn.csv"
+# data_path = "./banking_churn.csv"
 
 # design view
 st.sidebar.header("Banking Churn")
@@ -81,7 +81,7 @@ data = st.sidebar.file_uploader("Upload dataset", type=['csv','xlsx','txt'])
 if data is not None:
     pass
 else:
-    bank_dt = pd.read_csv(data_path)
+    bank_dt = pd.read_csv("banking_churn.csv")
 
    # feature selection
     churn_dt = bank_dt[['CreditScore','Geography','Gender','Age','Tenure','Balance','NumOfProducts',
