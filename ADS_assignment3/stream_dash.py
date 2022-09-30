@@ -81,7 +81,7 @@ data = st.sidebar.file_uploader("Upload dataset", type=['csv','xlsx','txt'])
 if data is not None:
     pass
 else:
-    bank_dt = pd.read_csv("banking_churn.csv")
+    bank_dt = pd.read_csv("./banking_churn.csv")
 
    # feature selection
     churn_dt = bank_dt[['CreditScore','Geography','Gender','Age','Tenure','Balance','NumOfProducts',

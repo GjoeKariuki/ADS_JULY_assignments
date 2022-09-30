@@ -75,7 +75,7 @@ def clean_currency(curr):
 if data is not None:
     pass
 else:
-    loaded_dt = pd.read_csv("data.csv")
+    loaded_dt = pd.read_csv("./data.csv")
     # cleaning
     loaded_dt["price"] = loaded_dt['price'].apply(clean_currency)
     loaded_dt['date'] = pd.to_datetime(loaded_dt['date'],dayfirst=True)
